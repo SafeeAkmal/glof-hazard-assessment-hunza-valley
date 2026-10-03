@@ -1,0 +1,12 @@
+{
+  "name": "glof-hunza-reports",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Builds the project deliverable documents (.docx) in reports/deliverables.",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "docx": "^9.8.1"
+  }
+}

@@ -1,56 +1,33 @@
-# Data (too large for git; stored on Google Drive per DECISIONS.md Decision D-I)
-data/raw/**
-data/interim/**
-data/processed/**
-data/external/**
-data/labels/**
-!data/**/.gitkeep
+# Satellite data cache written by the notebook (~0.9 GB, re-downloadable)
+data/
 
-# Model checkpoints
-models/**/*.pt
-models/**/*.pth
-models/**/*.ckpt
-!models/**/.gitkeep
-!models/**/README.md
+# Model checkpoints (saved to Google Drive by the notebook)
+*.pt
+*.pth
+*.ckpt
 
-# Results (regenerable; keep small summary CSVs if desired by removing the relevant line)
-results/figures/*.png
-results/risk_maps/*.png
-!results/**/.gitkeep
-
-# Jupyter
-.ipynb_checkpoints/
-*/.ipynb_checkpoints/*
-
-# Python
+# Python / Jupyter
 __pycache__/
 *.py[cod]
-*.egg-info/
-.eggs/
+.ipynb_checkpoints/
 .pytest_cache/
-.mypy_cache/
-.ruff_cache/
-*.egg
-build/
-dist/
 
 # Environments
 .env
-.venv
-env/
+.venv/
 venv/
 .conda/
+
+# Node (report builder)
+node_modules/
 
 # Earth Engine credentials
 .config/earthengine/
 *ee-credentials*
 
-# OS/editor
+# Office lock files, OS and editor files
+~$*
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
-
-# DVC (if adopted later per Decision D-I alternative)
-/data/raw.dvc
-/data/processed.dvc

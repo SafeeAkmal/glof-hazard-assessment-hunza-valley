@@ -23,9 +23,8 @@ SOFTWARE.
 ---
 
 Note: this license covers the code in this repository only. It does not
-license or relicense any third-party data used by the project (Copernicus
-Sentinel-1/Sentinel-2/DEM data, IEEE DataPort dataset, Lesi et al. glacial
-lake inventory, GLO dataset). Each of those sources carries its own license
-and citation requirements — see docs/DATA_DICTIONARY.md and
-docs/PROJECT_MASTER_SPEC.md for source attribution, and consult each
-provider's terms before redistributing any derived data.
+license or relicense the third-party data used by the project (Copernicus
+Sentinel-1, Sentinel-2 and Copernicus DEM data, accessed through Google Earth
+Engine). These data are provided under the Copernicus data policy and the
+Google Earth Engine terms of service; consult each provider's terms before
+redistributing any derived data.
