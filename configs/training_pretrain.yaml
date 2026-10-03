@@ -1,9 +1,0 @@
-# Blocked on Decision D-F (pretraining dataset scope) and D-F2 (corridor-lakes
-# scope). Proposed default per DEC-031/D-F: IEEE DataPort only for the
-# optical-baseline encoder; GLO treated as a stretch goal; Lesi corridor-lake
-# training handled separately (see training_fusion.yaml / Epic 6), not here.
-dataset: null   # TBD — Decision D-F; proposed default "ieee_dataport"
-encoder: null
-epochs: null
-batch_size: null
-learning_rate: null
