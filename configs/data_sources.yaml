@@ -1,0 +1,62 @@
+# Confirmed data sources (docs/DATA_DICTIONARY.md is authoritative).
+# This file records collection IDs and known facts only — it does not
+# freeze unresolved implementation choices (e.g. exact S2 bands).
+
+sentinel1:
+  collection: "COPERNICUS/S1_GRD"
+  polarizations: ["VV", "VH"]
+  orbit_policy: "one consistent orbit direction per lake"  # DEC-034; specific orbit per lake: TBD
+  do_not_reapply: ["radiometric_calibration", "terrain_correction"]  # already applied by GEE GRD — DEC-007, Guardrail D1
+  additional_processing:
+    - speckle_filter: "Refined Lee"      # window size TBD
+    - shadow_layover_mask: "DEM-derived"  # DEC-029
+  known_risk: "Sentinel-1B failed 2021-12-23 (verified, ESA); SAR revisit roughly halves for the remainder of the study period, overlapping the Shishper 2022-05-07 event window. Report scene counts separately pre/post 2021-12-23. DEC-028."
+
+sentinel2_l2a:
+  collection: "COPERNICUS/S2_SR_HARMONIZED"
+  available_from: "2017-03-28"
+  note: "2017-2018 coverage not global — see fallback sources below."
+  bands_final: null   # TBD — Decision D-B
+  cloud_shadow_masking: true
+
+sentinel2_l1c_fallback:
+  collection: "COPERNICUS/S2_HARMONIZED"
+  available_from: "2015-01-01"
+  role: "fallback where L2A is unavailable"
+
+sentinel2_cloud_probability:
+  collection: "COPERNICUS/S2_CLOUD_PROBABILITY"
+  role: "observation-quality / cloud masking signal — NOT a training label"
+
+landsat8_fallback:
+  collection: "LANDSAT/LC08/C02/T1_L2"
+  role: "fallback specifically for the 2017 Khurdopin window, consistent with Steiner et al.'s own approach"
+
+dem:
+  collection: "COPERNICUS/DEM/GLO30"
+  source_resolution_m: 30
+  model_grid_resolution_m: 10
+  note: "30 m source resampled to 10 m grid is NOT native 10 m terrain data — DEC-008, Guardrail E"
+  role: ["elevation", "slope (candidate hazard/fusion feature — Decision D-C)", "shadow/layover masking for SAR"]
+
+external_datasets:
+  ieee_dataport:
+    role: "optical-only pretraining / baseline support ONLY — not paired S1+DEM data"
+    n_images: 1200
+    train_test_split: "1000/200"
+    format: "RGB PNG, manually generated masks"
+    coverage_region: "High Mountain Asia (broad)"
+    hunza_coverage_verified: false   # OPEN-025
+    georeferencing_confirmed: false  # OPEN-025
+
+  lesi_2022_inventory:
+    role_1: "corridor-wide fusion-model training labels, on lakes OUTSIDE the three target lakes (scope TBD — Decision D-F2, OPEN-026)"
+    role_2: "2020 reference for Shishper and Passu ONLY (NOT Khurdopin — inventory predates/excludes Khurdopin's 2017 ephemeral lake)"
+    layer_used: "10 m 2020 Sentinel-2-derived layer only (NOT the 1990/2000 Landsat layers)"
+    n_lakes: 7560
+    min_mapping_unit_m2: 500
+    validation_vs_google_earth_median_diff_pct: 4.5
+    source_image_dates_confirmed: false  # flagged as open in the project's own Dataset Description
+
+  glo_dataset:
+    role: "not mentioned in Dataset_Description.pdf — lower priority / stretch option, Decision D-F"

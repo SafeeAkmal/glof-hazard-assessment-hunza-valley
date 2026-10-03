@@ -1,0 +1,10 @@
+# Blocked on Decision D-B (S2 bands) and D-C (slope channel) — in_channels
+# must derive from configs/preprocessing.yaml's fusion.channel_order once
+# frozen, per DEC-009. Do not hard-code a channel count here.
+in_channels: null   # derive from configs/preprocessing.yaml fusion.channel_order — DO NOT hard-code
+encoder: null
+pretrained_checkpoint: "models/pretrain/unet_pretrained.pt"
+epochs: null
+batch_size: null
+learning_rate: null
+loss: "dice_bce"
