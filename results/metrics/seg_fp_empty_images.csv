@@ -1,0 +1,5 @@
+condition,model,images,mean_fp_km2,images_with_fp
+clear,fusion,23,0.0,1
+clear,optical,23,0.0029,4
+simulated cloud,fusion,23,0.0001,1
+simulated cloud,optical,23,0.0,0

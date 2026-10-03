@@ -69,7 +69,31 @@ Evaluation covers IoU, F1, precision and recall on held-out years, under clear c
 
 ## Results
 
-> Results will be added after the full Colab run (segmentation metrics, lake-area time series, hazard index).
+All numbers below come from the executed notebook (Colab GPU) and are stored in [`results/metrics/`](results/metrics/). The test set has 54 held-out images from 2019 and 2021, of which 31 contain lake water.
+
+**Segmentation (pixel-pooled over all test images)**
+
+| Condition | Model | IoU | F1 | Precision | Recall |
+|---|---|---:|---:|---:|---:|
+| Clear | Optical-only | 0.618 | 0.764 | 0.706 | **0.831** |
+| Clear | Fusion | **0.649** | **0.787** | **0.767** | 0.809 |
+| Simulated cloud (no optical input) | Optical-only | 0.000 | 0.000 | 0.000 | 0.000 |
+| Simulated cloud (no optical input) | Fusion | **0.326** | **0.492** | **0.834** | **0.349** |
+
+<p align="center">
+  <img src="reports/figures/iou_per_site.png" width="80%" alt="IoU per site">
+</p>
+
+- **Clear sky: the two models are comparable.** Fusion has higher precision and produces fewer false positives (false water on 1 of 23 water-free test images, versus 4 for optical-only). Optical-only has slightly higher recall and per-image IoU (0.584 ± 0.279 vs 0.551 ± 0.274).
+- **Without optical data, only the fusion model works.** Its IoU is 0.326 overall and 0.440 on Borith Lake, at high precision. It does not recover the small Shishper and Khurdopin lakes from radar alone.
+- **The time series capture the events.** The Shishper lake fills each spring and drops to zero right after 29 May 2020 and 7 May 2022; the Khurdopin lake disappears after July 2017.
+- **The hazard index peaks at Shishper 22 days before the 2022 GLOF (0.737)**, the highest value in any pre-event window. On average, however, it ranks the larger, stable Borith Lake highest in all three windows, because absolute lake area is not comparable across lakes. Per-site normalisation is the main next step.
+
+<p align="center">
+  <img src="results/figures/lake_area_timeseries.png" width="85%" alt="Lake-area time series">
+</p>
+
+Full results, discussion and limitations are in the [final paper](reports/deliverables/Deliverable_4_Final_Paper.docx).
 
 ## Quick start
 
@@ -102,7 +126,8 @@ When run locally, data are cached in `data/raw/glof_minimal/`, which is git-igno
 │   ├── figures/                 # figures used in the reports and this README
 │   └── src/                     # scripts that regenerate figures and deliverables
 ├── results/
-│   └── metrics/                 # dataset statistics and run outputs (CSV / JSON)
+│   ├── figures/                 # figures from the executed notebook
+│   └── metrics/                 # segmentation, hazard and dataset tables (CSV / JSON)
 ├── docs/
 │   └── archive/                 # original planning documents (superseded)
 ├── requirements.txt
@@ -112,7 +137,8 @@ When run locally, data are cached in `data/raw/glof_minimal/`, which is git-igno
 ## Reproducing the reports
 
 ```bash
-python reports/src/figs.py                 # figures + dataset statistics (needs the local data cache)
+python reports/src/figs.py                 # data figures + dataset statistics (needs the local data cache)
+python reports/src/results_figs.py         # result charts from results/metrics/
 cd reports/src && npm install && npm run build   # rebuilds reports/deliverables/*.docx
 ```
 

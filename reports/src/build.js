@@ -132,9 +132,8 @@ async function d3() {
   const doc = makeDoc([
     ...titleBlock(C.TITLE, SUB.d3),
     coverGuide([
-      "This document contains all chapters up to Experiments and Results, as required for Deliverable 3. Submit it together with notebooks/glof_pipeline.ipynb (run end to end on Colab so the outputs are saved in the notebook).",
-      "Run the notebook on a Colab T4 GPU, then search this document for \"FILL\" and \"INSERT FIGURE\" and complete each item using the guide boxes in Section IV. Remove every blue guide box before exporting to PDF.",
-      "The abstract also contains result placeholders — fill it last.",
+      "This document contains all chapters up to Experiments and Results, as required for Deliverable 3, with the results of the Colab run (notebooks/glof_pipeline.ipynb; all numbers are also in results/metrics/). Submit it together with the executed notebook.",
+      "Remaining placeholders: affiliation and e-mails under the title, the GPU model in the training-configuration table, the optional GPU training time, and the venue of the Thati & Ari reference. Delete every blue box before exporting to PDF.",
     ]),
     L.spacer(),
     ...abstractBlock(C.abstractFull, C.KEYWORDS),
@@ -153,9 +152,8 @@ async function d4() {
   const doc = makeDoc([
     ...titleBlock(C.TITLE, SUB.d4),
     coverGuide([
-      "Complete research paper (Deliverable 4). Fill Section IV first (results), then adjust Section V (Discussion) using its guide boxes so the interpretation matches your numbers, then the Conclusion and finally the Abstract.",
-      "Search for \"FILL\" and \"INSERT FIGURE\" until none remain, delete all blue guide boxes, and export to PDF (or transfer the text into the IEEE LaTeX template).",
-      "Submit together with notebooks/glof_pipeline.ipynb run end to end.",
+      "Complete research paper (Deliverable 4) with the results of the Colab run (notebooks/glof_pipeline.ipynb; all numbers are also in results/metrics/). Submit it together with the executed notebook.",
+      "Remaining placeholders: affiliation and e-mails under the title, the GPU model in the training-configuration table, the optional GPU training time, the author-to-site mapping under Author Contributions, and the venue of the Thati & Ari reference. Delete every blue box, then export to PDF (or transfer the text into the IEEE LaTeX template).",
     ]),
     L.spacer(),
     ...abstractBlock(C.abstractFull, C.KEYWORDS),
