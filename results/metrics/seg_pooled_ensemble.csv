@@ -1,0 +1,7 @@
+condition,model,IoU,F1,precision,recall
+clear,fusion,0.785,0.88,0.863,0.897
+clear,optical,0.65,0.788,0.825,0.753
+clear,radar,0.497,0.664,0.725,0.612
+simulated cloud,fusion,0.512,0.677,0.813,0.58
+simulated cloud,optical,0.0,0.0,0.0,0.0
+simulated cloud,radar,0.497,0.664,0.725,0.612

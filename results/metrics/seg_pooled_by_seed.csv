@@ -1,0 +1,19 @@
+condition,model,seed,IoU
+clear,fusion,0,0.773
+clear,fusion,1,0.779
+clear,fusion,2,0.782
+clear,optical,0,0.645
+clear,optical,1,0.644
+clear,optical,2,0.275
+clear,radar,0,0.479
+clear,radar,1,0.492
+clear,radar,2,0.489
+simulated cloud,fusion,0,0.516
+simulated cloud,fusion,1,0.505
+simulated cloud,fusion,2,0.486
+simulated cloud,optical,0,0.0
+simulated cloud,optical,1,0.0
+simulated cloud,optical,2,0.0
+simulated cloud,radar,0,0.479
+simulated cloud,radar,1,0.492
+simulated cloud,radar,2,0.489

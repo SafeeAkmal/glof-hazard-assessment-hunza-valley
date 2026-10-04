@@ -13,7 +13,7 @@ Glacial lake outburst floods (GLOFs) have struck the Hunza Valley (Gilgit-Baltis
 - **Three sites, three documented events.** Shishper (ice-dammed lake; outbursts on 29 May 2020 and 7 May 2022), Khurdopin (surge-dammed lake; drained in July 2017), and Borith Lake next to Passu Glacier as a comparison site.
 - **Dense, event-centred sampling.** Every Sentinel-1 and Sentinel-2 acquisition from 90 days before to 45 days after each event, plus the same seasons in all other years (2017–2022): **730 dates**, co-registered on a common 10 m grid.
 - **Automatic water labels** from Sentinel-2 NDWI, with cloud, shadow and snow rules: **191 labelled dates**, no manual digitising.
-- **Optical-only vs. fusion U-Net** (ResNet-18 encoder). The fusion model is trained with *optical-channel dropout*, so it still works when optical data are missing.
+- **Optical-only vs. radar-only vs. fusion U-Net** (ResNet-18 encoder), each trained with 3 seeds and balanced crop sampling. The fusion model is also trained with *optical-channel dropout*, so it still works when optical data are missing.
 - **Fully open and reproducible.** All data are free, and one Colab notebook runs everything: download, labels, training, evaluation, time series and hazard index.
 
 <p align="center">
@@ -58,36 +58,38 @@ Even before any model is trained, the automatic labels show the documented drain
 
 ## Method
 
-| | Optical-only baseline | Fusion model |
-|---|---|---|
-| Architecture | U-Net, ResNet-18 encoder (ImageNet) | same |
-| Inputs | B2, B3, B4, B8, NDWI (5 channels) | + VV, VH, elevation, slope (9 channels) |
-| Training | 128 × 128 crops, batch 16, Adam 1e-3, cosine schedule, masked BCE + Dice, flips | same + optical-channel dropout (p = 0.3) |
-| Parameters | 14.33 M | 14.35 M |
+| | Optical-only (baseline) | Radar-only (ablation) | Fusion (proposed) |
+|---|---|---|---|
+| Inputs | B2, B3, B4, B8, NDWI (5 ch) | VV, VH, elevation, slope (4 ch) | all 9 channels |
+| Architecture | U-Net, ResNet-18 encoder (ImageNet) | same | same |
+| Training | 128 × 128 crops (50% centred on lake water), batch 16, Adam 1e-3, cosine schedule, masked BCE + Dice, flips, 3,000 steps | same | same + optical-channel dropout (p = 0.3) |
+| Seeds | 3 | 3 | 3 |
+| Parameters | 14.33 M | 14.33 M | 14.35 M |
 
-Evaluation covers IoU, F1, precision and recall on held-out years, under clear conditions and with all optical channels removed (simulated complete cloud cover). The fusion model is then run on all 730 dates to derive lake area, 30-day growth rate and an equal-weight hazard index (area + growth + slope). For each event, the index of all three sites is compared over the 90 days before it. Full details are in [Deliverable 2](reports/deliverables/Deliverable_2_Methodology.docx).
+The models are evaluated with IoU, F1, precision and recall on held-out years, under clear conditions and with all optical channels removed (simulated complete cloud cover). Results are reported as mean ± sd across seeds. The fusion model (the average of its 3 seeds) is then run on all 730 dates to derive lake area, 30-day growth rate and an equal-weight hazard index (area + growth + slope). For each event, the index of all three sites is compared over the 90 days before it. Full details are in [Deliverable 2](reports/deliverables/Deliverable_2_Methodology.docx).
 
 ## Results
 
-All numbers below come from the executed notebook (Colab GPU) and are stored in [`results/metrics/`](results/metrics/). The test set has 54 held-out images from 2019 and 2021, of which 31 contain lake water.
+All numbers come from the executed notebook (Colab T4 GPU) and are stored in [`results/metrics/`](results/metrics/). The test set has 54 held-out images from 2019 and 2021, of which 31 contain lake water.
 
-**Segmentation (pixel-pooled over all test images)**
+**Segmentation: pixel-pooled over all test images, mean ± sd over 3 seeds**
 
 | Condition | Model | IoU | F1 | Precision | Recall |
 |---|---|---:|---:|---:|---:|
-| Clear | Optical-only | 0.618 | 0.764 | 0.706 | **0.831** |
-| Clear | Fusion | **0.649** | **0.787** | **0.767** | 0.809 |
-| Simulated cloud (no optical input) | Optical-only | 0.000 | 0.000 | 0.000 | 0.000 |
-| Simulated cloud (no optical input) | Fusion | **0.326** | **0.492** | **0.834** | **0.349** |
+| Clear | Optical-only | 0.521 ± 0.214 | 0.666 ± 0.204 | 0.643 ± 0.293 | 0.752 ± 0.011 |
+| Clear | Radar-only | 0.487 ± 0.007 | 0.655 ± 0.006 | 0.702 ± 0.035 | 0.615 ± 0.020 |
+| Clear | **Fusion** | **0.778 ± 0.005** | **0.875 ± 0.003** | **0.856 ± 0.023** | **0.896 ± 0.019** |
+| No optical input | Optical-only | 0.000 | 0.000 | 0.000 | 0.000 |
+| No optical input | **Fusion** | **0.503 ± 0.015** | **0.669 ± 0.013** | **0.788 ± 0.028** | 0.581 ± 0.014 |
 
 <p align="center">
-  <img src="reports/figures/iou_per_site.png" width="80%" alt="IoU per site">
+  <img src="reports/figures/iou_per_site.png" width="85%" alt="IoU per site">
 </p>
 
-- **Clear sky: the two models are comparable.** Fusion has higher precision and produces fewer false positives (false water on 1 of 23 water-free test images, versus 4 for optical-only). Optical-only has slightly higher recall and per-image IoU (0.584 ± 0.279 vs 0.551 ± 0.274).
-- **Without optical data, only the fusion model works.** Its IoU is 0.326 overall and 0.440 on Borith Lake, at high precision. It does not recover the small Shishper and Khurdopin lakes from radar alone.
-- **The time series capture the events.** The Shishper lake fills each spring and drops to zero right after 29 May 2020 and 7 May 2022; the Khurdopin lake disappears after July 2017.
-- **The hazard index peaks at Shishper 22 days before the 2022 GLOF (0.737)**, the highest value in any pre-event window. On average, however, it ranks the larger, stable Borith Lake highest in all three windows, because absolute lake area is not comparable across lakes. Per-site normalisation is the main next step.
+- **Fusion is the best and most stable model at every site:** Shishper 0.60 vs 0.15 (optical-only) and 0.08 (radar-only); Khurdopin 0.51 vs 0.25 and 0.00; Borith Lake 0.87 vs 0.69 and 0.61. Its three seeds lie between 0.773 and 0.782, whereas one optical-only seed reached only 0.275. Part of the advantage may come from the labels sharing a slope rule with the slope input; see the paper's discussion.
+- **Without optical data**, the fusion model behaves like the radar-only model (IoU 0.50 vs 0.49) and keeps working on Borith Lake (0.64). Neither radar-based model detects the small Shishper and Khurdopin lakes.
+- **Time series:** the Shishper lake fills each spring and drops to zero right after 29 May 2020 and 7 May 2022; the Khurdopin lake disappears after July 2017.
+- **Hazard index:** the main index (absolute area, growth and slope, normalised across lakes) ranks the large, stable Borith Lake highest before every event. An **exploratory** per-lake index, added after this result and comparing each lake with its own normal state, peaks at the event lake before all three events (Shishper 4.4 and 7.1; Khurdopin 17.6). Treat it as a hypothesis to test on other lakes.
 
 <p align="center">
   <img src="results/figures/lake_area_timeseries.png" width="85%" alt="Lake-area time series">
@@ -104,7 +106,7 @@ Full results, discussion and limitations are in the [final paper](reports/delive
 3. Enter your Earth Engine project ID in the `PROJECT_ID` field. You need a [registered Earth Engine project](https://code.earthengine.google.com/register), which is free for non-commercial use.
 4. Select **Runtime → Run all**. You will be asked to sign in to Earth Engine and to allow Google Drive access.
 
-The first run downloads about 0.9 GB to `MyDrive/glof_minimal`, which takes roughly 15 minutes. Later runs reuse the cache. Training both models takes a few minutes on a T4 GPU.
+The first run downloads about 0.9 GB to `MyDrive/glof_minimal`, which takes roughly 15 minutes. Later runs reuse the cache. Training all three models with 3 seeds each takes about 30 minutes on a T4 GPU.
 
 ### Local
 
@@ -144,10 +146,10 @@ cd reports/src && npm install && npm run build   # rebuilds reports/deliverables
 
 ## Limitations
 
-- Labels are generated automatically from optical NDWI. They miss frozen or very turbid lake surfaces, and they favour the optical model in clear-sky comparisons.
-- The dataset is small: 191 labelled images from three sites. Each model is trained once and there is no separate validation set.
+- Labels are generated automatically from optical NDWI and a slope rule. They miss frozen or very turbid lake surfaces, and they share information with the model inputs.
+- The dataset is small: 191 labelled images from three sites. There is no separate validation set; 3 seeds measure training variability.
 - Sentinel-1 data are used without extra speckle filtering. The 30 m DEM is resampled to 10 m. Sentinel-1B failed in December 2021, so radar coverage in 2022 is sparser.
-- The hazard index uses equal weights, and the evaluation looks back at past events; it is **not** an early-warning system.
+- The hazard index uses equal weights, the per-lake index is post hoc, and the evaluation looks back at past events; neither is an early-warning system.
 
 ## Team
 

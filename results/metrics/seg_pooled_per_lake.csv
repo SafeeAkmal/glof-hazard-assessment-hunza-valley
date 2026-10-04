@@ -1,13 +1,19 @@
-lake,condition,model,IoU,F1,precision,recall
-khurdopin,clear,fusion,0.393,0.564,0.74,0.456
-khurdopin,clear,optical,0.329,0.495,0.395,0.661
+lake,condition,model,IoU_mean,IoU_std,F1_mean,F1_std
+khurdopin,clear,fusion,0.513,0.046,0.677,0.04
+khurdopin,clear,optical,0.251,0.011,0.401,0.013
+khurdopin,clear,radar,0.0,0.0,0.0,0.0
 khurdopin,simulated cloud,fusion,0.0,0.0,0.0,0.0
 khurdopin,simulated cloud,optical,0.0,0.0,0.0,0.0
-passu,clear,fusion,0.761,0.864,0.845,0.884
-passu,clear,optical,0.788,0.882,0.891,0.872
-passu,simulated cloud,fusion,0.44,0.611,0.839,0.48
+khurdopin,simulated cloud,radar,0.0,0.0,0.0,0.0
+passu,clear,fusion,0.87,0.003,0.931,0.002
+passu,clear,optical,0.69,0.306,0.787,0.245
+passu,clear,radar,0.61,0.02,0.758,0.016
+passu,simulated cloud,fusion,0.643,0.022,0.783,0.017
 passu,simulated cloud,optical,0.0,0.0,0.0,0.0
-shishper,clear,fusion,0.419,0.59,0.546,0.643
-shishper,clear,optical,0.372,0.542,0.43,0.734
-shishper,simulated cloud,fusion,0.0,0.0,0.0,0.0
+passu,simulated cloud,radar,0.61,0.02,0.758,0.016
+shishper,clear,fusion,0.601,0.007,0.751,0.006
+shishper,clear,optical,0.155,0.039,0.266,0.06
+shishper,clear,radar,0.082,0.041,0.15,0.071
+shishper,simulated cloud,fusion,0.065,0.013,0.121,0.023
 shishper,simulated cloud,optical,0.0,0.0,0.0,0.0
+shishper,simulated cloud,radar,0.082,0.041,0.15,0.071

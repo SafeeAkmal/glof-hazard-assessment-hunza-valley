@@ -1,10 +1,10 @@
 event,lake,mean_score_before,max_score_before,n_dates_before
-Shishper breach 2020,khurdopin,0.079,0.079,43
-Shishper breach 2020,passu,0.273,0.664,29
-Shishper breach 2020,shishper,0.146,0.418,29
-Shishper GLOF 2022,khurdopin,0.079,0.079,40
-Shishper GLOF 2022,passu,0.291,0.626,23
-Shishper GLOF 2022,shishper,0.171,0.737,31
-Khurdopin drainage 2017,khurdopin,0.092,0.155,21
-Khurdopin drainage 2017,passu,0.231,0.339,17
-Khurdopin drainage 2017,shishper,0.079,0.079,19
+Shishper breach 2020,khurdopin,0.192,0.276,43
+Shishper breach 2020,passu,0.479,0.626,29
+Shishper breach 2020,shishper,0.2,0.313,29
+Shishper GLOF 2022,khurdopin,0.185,0.185,40
+Shishper GLOF 2022,passu,0.419,0.864,23
+Shishper GLOF 2022,shishper,0.223,0.47,31
+Khurdopin drainage 2017,khurdopin,0.193,0.243,21
+Khurdopin drainage 2017,passu,0.453,0.516,17
+Khurdopin drainage 2017,shishper,0.185,0.185,19

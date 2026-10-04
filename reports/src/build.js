@@ -115,7 +115,7 @@ async function d2() {
   const doc = makeDoc([
     ...titleBlock(C.TITLE, SUB.d2),
     coverGuide([
-      "Fill the yellow placeholders under the title and in the training-configuration table (GPU model from !nvidia-smi in Colab).",
+      "Fill the yellow placeholders under the title.",
       "This document contains Section III (Methodology and Experimental Setup) with the required subsections: Proposed Methodology, Model Architecture, Dataset and Preprocessing, Training Configuration and Evaluation Metrics. It describes exactly what notebooks/glof_pipeline.ipynb does.",
       "Section numbering (III) matches the complete paper; if your instructor wants it numbered as 3, change the heading only.",
     ]),
@@ -133,7 +133,7 @@ async function d3() {
     ...titleBlock(C.TITLE, SUB.d3),
     coverGuide([
       "This document contains all chapters up to Experiments and Results, as required for Deliverable 3, with the results of the Colab run (notebooks/glof_pipeline.ipynb; all numbers are also in results/metrics/). Submit it together with the executed notebook.",
-      "Remaining placeholders: affiliation and e-mails under the title, the GPU model in the training-configuration table, the optional GPU training time, and the venue of the Thati & Ari reference. Delete every blue box before exporting to PDF.",
+      "Remaining placeholders: affiliation and e-mails under the title, and the venue of the Thati & Ari reference. Delete this box before exporting to PDF.",
     ]),
     L.spacer(),
     ...abstractBlock(C.abstractFull, C.KEYWORDS),
@@ -153,7 +153,7 @@ async function d4() {
     ...titleBlock(C.TITLE, SUB.d4),
     coverGuide([
       "Complete research paper (Deliverable 4) with the results of the Colab run (notebooks/glof_pipeline.ipynb; all numbers are also in results/metrics/). Submit it together with the executed notebook.",
-      "Remaining placeholders: affiliation and e-mails under the title, the GPU model in the training-configuration table, the optional GPU training time, the author-to-site mapping under Author Contributions, and the venue of the Thati & Ari reference. Delete every blue box, then export to PDF (or transfer the text into the IEEE LaTeX template).",
+      "Remaining placeholders: affiliation and e-mails under the title, the author-to-site mapping under Author Contributions, and the venue of the Thati & Ari reference. Delete this box, then export to PDF (or transfer the text into the IEEE LaTeX template).",
     ]),
     L.spacer(),
     ...abstractBlock(C.abstractFull, C.KEYWORDS),

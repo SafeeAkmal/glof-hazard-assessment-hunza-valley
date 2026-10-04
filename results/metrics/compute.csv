@@ -1,0 +1,4 @@
+model,channels,parameters,train_minutes_mean,train_minutes_std,peak_gpu_memory_gb,inference_ms_per_image
+optical,5,14334481,3.11,0.02,0.83,26.3
+radar,4,14331345,3.1,0.0,1.18,26.0
+fusion,9,14347025,3.25,0.0,1.53,28.8

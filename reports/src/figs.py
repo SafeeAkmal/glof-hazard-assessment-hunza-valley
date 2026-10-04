@@ -168,21 +168,26 @@ for i, t in enumerate(stages):
     box(a, 0.1 + i * 2.5, 3.3, 2.2, 1.35, t, C1 if i < 3 else C2)
     if i:
         arrow(a, i * 2.5 - 0.2, 3.97, i * 2.5 + 0.1, 3.97)
-box(a, 1.0, 1.75, 3.6, 1.05, "Optical-only U-Net (baseline)\nResNet-18 encoder, 5 channels", C2)
-box(a, 5.4, 1.75, 3.6, 1.05, "Fusion U-Net (proposed)\nResNet-18 encoder, 9 channels,\noptical-channel dropout", C2)
-arrow(a, 8.6, 3.3, 7.2, 2.82); arrow(a, 8.6, 3.3, 2.8, 2.82)
+models = ["Optical-only U-Net\n(baseline) 5 channels", "Radar-only U-Net\n(ablation) 4 channels",
+          "Fusion U-Net (proposed)\n9 channels + optical\nchannel dropout"]
+for i, t in enumerate(models):
+    box(a, 0.4 + i * 3.2, 1.75, 2.85, 1.05, t, C2)
+for xm in (1.82, 5.02, 8.22):
+    arrow(a, 8.6, 3.3, xm, 2.82)
 outs = ["Segmentation evaluation\nIoU, F1, precision, recall\nclear vs simulated cloud",
-        "Lake-area time series\n(fusion model, all 730 dates)\narea, 30-day growth",
+        "Lake-area time series\n(fusion, 3-seed ensemble,\nall 730 dates)",
         "Hazard index\narea + growth + slope\nvs documented GLOFs"]
 for i, t in enumerate(outs):
     box(a, 0.1 + i * 3.35, 0.05, 3.05, 1.15, t, C3)
-arrow(a, 2.8, 1.75, 1.6, 1.22); arrow(a, 7.2, 1.75, 1.9, 1.22); arrow(a, 7.2, 1.75, 5.0, 1.22)
+for xm in (1.82, 5.02):
+    arrow(a, xm, 1.75, 1.6, 1.22)
+arrow(a, 8.22, 1.75, 1.9, 1.22); arrow(a, 8.22, 1.75, 5.0, 1.22)
 arrow(a, 6.55, 0.62, 6.8, 0.62)
 plt.tight_layout(); plt.savefig(os.path.join(FIG_DIR, "pipeline.png"), dpi=160); plt.close()
 
 # ---- Fig: architecture ----
 fig, a = plt.subplots(figsize=(7.2, 3.1)); a.set_xlim(0, 12.2); a.set_ylim(0, 5.3); a.axis("off")
-enc = [("Input\n128×128\nC = 5 / 9", 4.0), ("Conv 7×7\n64, /2", 3.6), ("Stage 1\n64, /4", 3.1),
+enc = [("Input\n128×128\nC = 4/5/9", 4.0), ("Conv 7×7\n64, /2", 3.6), ("Stage 1\n64, /4", 3.1),
        ("Stage 2\n128, /8", 2.6), ("Stage 3\n256, /16", 2.1), ("Stage 4\n512, /32", 1.6)]
 xs = []
 for i, (t, h) in enumerate(enc):

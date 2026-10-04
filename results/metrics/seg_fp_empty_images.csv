@@ -1,5 +1,7 @@
-condition,model,images,mean_fp_km2,images_with_fp
-clear,fusion,23,0.0,1
-clear,optical,23,0.0029,4
-simulated cloud,fusion,23,0.0001,1
-simulated cloud,optical,23,0.0,0
+condition,model,images,images_with_fp_mean_over_seeds,mean_fp_km2
+clear,fusion,23,3.3333,0.0002
+clear,optical,23,6.3333,0.0114
+clear,radar,23,2.0,0.0003
+simulated cloud,fusion,23,0.0,0.0
+simulated cloud,optical,23,0.0,0.0
+simulated cloud,radar,23,2.0,0.0003
